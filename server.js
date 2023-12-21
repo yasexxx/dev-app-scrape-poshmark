@@ -5,6 +5,9 @@
 
 const path = require("path");
 
+const API_PREFIX = "/api/v1";
+require('dotenv').config()
+
 // Require the fastify framework and instantiate it
 const fastify = require("fastify")({
   // Set this to true for detailed logging:
@@ -29,8 +32,11 @@ fastify.register(require("@fastify/view"), {
   },
 });
 
+fastify.register(require("./src/api/routes/poshmark.route"), { prefix: API_PREFIX});
+
 // Load and parse SEO data
 const seo = require("./src/seo.json");
+const { configDotenv } = require("dotenv");
 if (seo.url === "glitch-default") {
   seo.url = `https://${process.env.PROJECT_DOMAIN}.glitch.me`;
 }
